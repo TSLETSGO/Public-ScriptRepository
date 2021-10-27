@@ -33,6 +33,7 @@ param(
 )
 
 #region VARIABLES ########################################################### - VARIABLES
+$ExecutableArray = @("*.0XE","*.73K","*.89K","*.A6P","*.AC","*.ACC","*.ACR","*.ACTION","*.ACTM","*.AHK","*.AIR","*.APK","*.APP","*.APP","*.ARSCRIPT","*.AS","*.ASB","*.AWK","*.AZW2","*.BAT","*.BEAM","*.BIN","*.BTM","*.CEL","*.CELX","*.CHM","*.CMD","*.COF","*.COM","*.COMMAND","*.CPL","*.CRT","*.CSH","*.DEK","*.DLD", "*.DLL","*.DMC","*.DOCM","*.DOTM","*.DXL","*.EAR","*.EBM","*.EBS","*.EBS2","*.ECF","*.EHAM","*.ELF","*.ES","*.EX4","*.EXE","*.EXOPC","*.EZS","*.FAS","*.FKY","*.FPI","*.FRS","*.FXP","*.GADGET","*.GS","*.HAM","*.HMS","*.HPF","*.HTA","*.IIM","*.INF1","*.INS","*.INX","*.IPA","*.IPF","*.ISP","*.ISU","*.JAR","*.JOB","*.JS","*.JSE","*.JSX","*.KIX","*.KSH","*.LNK","*.LO","*.LS","*.MAM","*.MCR","*.MEL","*.MPX","*.MRC","*.MS","*.MS","*.MSC","*.MSI","*.MSP","*.MST","*.MXE","*.NEXE","*.OBS","*.ORE","*.OSX","*.OTM","*.OUT","*.PAF","*.PEX","*.PIF","*.PLX","*.POTM","*.PPAM","*.PPSM","*.PPTM","*.PRC","*.PRG","*.PS1","*.PVD","*.PWC","*.PYC","*.PYO","*.QPX","*.RBX","*.REG","*.RGS","*.ROX","*.RPJ","*.RUN","*.S2A","*.SBS","*.SCA","*.SCAR","*.SCB","*.SCR","*.SCRIPT","*.SCT","*.SHB","*.SHS","*.SMM","*.SPR","*.TCP","*.THM","*.TLB","*.TMS","*.U3P","*.UDF","*.UPX","*.URL","*.VB","*.VBE","*.VBS","*.VBSCRIPT","*.VLX","*.VPM","*.WCM","*.WIDGET","*.WIZ","*.WORKFLOW","*.WPK","*.WPM","*.WS","*.WSF","*.WSH","*.XAP","*.XBAP","*.XLAM","*.XLM","*.XLSM","*.XLTM","*.XQT","*.XYS","*.ZL9")
 #endregion /VARIABLES ####################################################### - /VARIABLES
 
 if ($transcript -eq $true){
@@ -72,59 +73,35 @@ if (Test-Path -Path $BlockFileLocation -PathType Container){
     if ($ConfirmPrompt -match "yes|y"){
         write-host "you chose 'Yes'"
         $checkforadmin = CheckforRunningAsAdmin
-        if ($checkforadmin -eq $false) {
+        if ($checkforadmin -eq $false){
             $CommandLine = "-ExecutionPolicy Bypass -File `"" + $($MyInvocation.MyCommand.Path) + "`" " + "-Direction `"$Direction`" " + "-BlockFileLocation `"$BlockFileLocation`" " + "-ConfirmPrompt `"$ConfirmPrompt`" "
             Start-Process -FilePath PowerShell.exe -Verb Runas -ArgumentList $CommandLine
             Exit
         }
         else{
-            $AllDLLFiles = Get-ChildItem -path "$BlockFileLocation" -Recurse -Filter "*.dll" | select-object FullName
-            $AllEXEFiles = Get-ChildItem -path "$BlockFileLocation" -Recurse -Filter "*.exe" | select-object FullName
+            $AllFiles = Get-ChildItem -path "$BlockFileLocation" -Recurse -include $ExecutableArray | select-object FullName
             $ExistingInboundFirewallRules = Get-NetFirewallRule -direction Inbound | Select-Object DisplayName,Direction
             $ExistingOutboundFirewallRules = Get-NetFirewallRule -direction Outbound | Select-Object DisplayName,Direction
 
             #Process DLL files
-            foreach ($DLL in $AllDLLFiles){
+            foreach ($File in $AllFiles){
                 write-host "Checking if rule already exists"
                 if ($Direction -eq "Inbound"){
-                    if ($($ExistingInboundFirewallRules.DisplayName) -contains "Block - $($DLL.FullName)"){
+                    if ($($ExistingInboundFirewallRules.DisplayName) -contains "Block - $($File.FullName)"){
                         write-host "Already exist within outbound firewall rules"
                     }
                     else{
-                        write-host "blocking $Direction traffic for `'$($DLL.Fullname)`'"
-                        New-NetFirewallRule -Program "$($DLL.Fullname)" -Group "Custom" -Action "Block" -Profile "Domain, Private, Public" -DisplayName "Block - $($DLL.Fullname)" -Description "Block all DLL in $BlockFileLocation" -Direction "$Direction"
+                        write-host "blocking $Direction traffic for `'$($File.Fullname)`'"
+                        New-NetFirewallRule -Program "$($File.Fullname)" -Group "Custom" -Action "Block" -Profile "Domain, Private, Public" -DisplayName "Block - $($File.Fullname)" -Description "Block all executable-files in $BlockFileLocation" -Direction "$Direction"
                     }
                 }
                 elseif ($Direction -eq "Outbound"){
-                    if ($($ExistingOutboundFirewallRules.DisplayName) -contains "Block - $($DLL.FullName)"){
+                    if ($($ExistingOutboundFirewallRules.DisplayName) -contains "Block - $($File.FullName)"){
                         write-host "Already exist within inbound firewall rules"
                     }
                     else{
-                        write-host "blocking $Direction traffic for `'$($DLL.Fullname)`'"
-                        New-NetFirewallRule -Program "$($DLL.Fullname)" -Group "Custom" -Action "Block" -Profile "Domain, Private, Public" -DisplayName "Block - $($DLL.Fullname)" -Description "Block all DLL in $BlockFileLocation" -Direction "$Direction"
-                    }
-                }
-            }
-
-            #Process EXE files
-            foreach ($EXE in $AllEXEFiles){
-                write-host "Checking if rule already exists"
-                if ($Direction -eq "Inbound"){
-                    if ($($ExistingInboundFirewallRules.DisplayName) -contains "Block - $($EXE.FullName)"){
-                        write-host "Already exist within outbound firewall rules"
-                    }
-                    else{
-                        write-host "blocking $Direction traffic for `'$($EXE.Fullname)`'"
-                        New-NetFirewallRule -Program "$($EXE.Fullname)" -Group "Custom" -Action "Block" -Profile "Domain, Private, Public" -DisplayName "Block - $($EXE.Fullname)" -Description "Block all DLL in $BlockFileLocation" -Direction "$Direction"
-                    }
-                }
-                elseif ($Direction -eq "Outbound"){
-                    if ($($ExistingOutboundFirewallRules.DisplayName) -contains "Block - $($EXE.FullName)"){
-                        write-host "Already exist within inbound firewall rules"
-                    }
-                    else{
-                        write-host "blocking $Direction traffic for `'$($EXE.Fullname)`'"
-                        New-NetFirewallRule -Program "$($EXE.Fullname)" -Group "Custom" -Action "Block" -Profile "Domain, Private, Public" -DisplayName "Block - $($EXE.Fullname)" -Description "Block all DLL in $BlockFileLocation" -Direction "$Direction"
+                        write-host "blocking $Direction traffic for `'$($File.Fullname)`'"
+                        New-NetFirewallRule -Program "$($File.Fullname)" -Group "Custom" -Action "Block" -Profile "Domain, Private, Public" -DisplayName "Block - $($File.Fullname)" -Description "Block all executable-files in $BlockFileLocation" -Direction "$Direction"
                     }
                 }
             }
