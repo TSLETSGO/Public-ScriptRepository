@@ -8,10 +8,11 @@
     Version: 1.0
     Creation Date: 29.08.2021
 
-    Uses Pinvoke and ChangeDisplaySettings Win32API to change screen resolution
+    Uses Pinvoke and ChangeDisplaySettings Win32API to change screen resolution. 
+    Useful for moonlight streaming when you have games that adjust themselves based on monitor-resolution.
 
 .EXAMPLE
-	Set-ScreenResolution.ps1 -Width 1024 -Height 768         
+	Set-ScreenResolution.ps1 -Width 1024 -Height 768 -freq 60
 
 .NOTES
     Used mainly with playnite and in-home game streaming to fix resolution issues
