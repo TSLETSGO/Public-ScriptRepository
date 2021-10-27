@@ -2,9 +2,8 @@
 .SYNOPSIS
     Monthly backup
 .DESCRIPTION
-    Author: Trond Stien
+    Author: TSLETSGO
     Version: 1.0
-    Creation Date: 01.06.2021
 
     Grabs file from FROM location, put it in onedrive, and mark as cloud-only
 

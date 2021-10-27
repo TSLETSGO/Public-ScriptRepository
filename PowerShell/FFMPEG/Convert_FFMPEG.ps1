@@ -2,9 +2,8 @@
 .SYNOPSIS
     Uses FFMPEG to convert videos in a folder to a specified new format
 .DESCRIPTION
-    Author: Trond Stien
+    Author: TSLETSGO
     Version: 1.1
-    Creation Date: 09.10.2021
 
     Uses FFMPEG to convert videos in a folder to WEBM
 

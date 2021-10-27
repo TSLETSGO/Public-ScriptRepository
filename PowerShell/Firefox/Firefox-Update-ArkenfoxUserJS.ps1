@@ -1,11 +1,9 @@
 ﻿<#
 .SYNOPSIS
     Updates the user.js arkenfox profile on Windows with the provided updater.bat.
-
 .DESCRIPTION
-    Author: Trond Stien
+    Author: TSLETSGO
     Version: 1.0
-    Creation Date: 06.03.2021
 
     Updates the user.js arkenfox profile on windows with the provided updater.bat script without prompting user for input.
         for more information about the user.js, see https://github.com/arkenfox/user.js

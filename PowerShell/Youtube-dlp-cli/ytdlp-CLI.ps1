@@ -1,11 +1,9 @@
 ﻿<#
 .SYNOPSIS
     Simple front-end CLI for downloading youtube-DLP audio/video stuff
-
 .DESCRIPTION
-    Author: Trond Stien
+    Author: TSLETSGO
     Version: 1.0
-    Creation Date: 15.10.2021
 
     Got tired of forgetting commands so created a simplified commandline interface for youtube-dl dumbos to download desired videos and audio.
 

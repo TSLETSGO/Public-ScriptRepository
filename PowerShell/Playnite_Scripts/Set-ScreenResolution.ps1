@@ -1,10 +1,10 @@
 <#
 .SYNOPSIS
     Change display resolution and refresh frequency
-
 .DESCRIPTION
     Author: UNKNOWN
     - Edited by: TSLETSGO
+    Version: 1.0
 
     Uses Pinvoke and ChangeDisplaySettings Win32API to change screen resolution. 
     Useful for moonlight streaming when you have games that adjust themselves based on monitor-resolution.

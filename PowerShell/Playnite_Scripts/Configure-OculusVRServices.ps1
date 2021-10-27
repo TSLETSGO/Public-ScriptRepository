@@ -1,11 +1,9 @@
 ﻿<#
 .SYNOPSIS
     Configure Oculus and Virtual Desktop VR services
-
 .DESCRIPTION
     Author: TSLETSGO
     Version: 1.0
-    Creation Date: 29.08.2021
 
     Simple script for stopping/disabling or enabling/starting Oculus and Virtual Desktop VR Services 
 

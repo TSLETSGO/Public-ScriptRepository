@@ -2,9 +2,8 @@
 .SYNOPSIS
     [SYNPOSIS]
 .DESCRIPTION
-    Author: Trond Stien
+    Author: TSLETSGO
     Version: [VERSIONNUMBER]
-    Creation Date: [CREATION DATE]
 
     [DESCRIPTION]
 

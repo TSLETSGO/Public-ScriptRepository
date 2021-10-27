@@ -2,9 +2,8 @@
 .SYNOPSIS
     Blocks inbound or outbound traffic to a file using firewall.
 .DESCRIPTION
-    Author: Trond Stien
+    Author: TSLETSGO
     Version: 1.0
-    Creation Date: 06.03.2021
 
     Blocks a file either or a folders DLL+EXE files from inbound or outbound traffic. Requires elevation unless UAC turned off.
 .EXAMPLE

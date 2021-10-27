@@ -2,9 +2,8 @@
 .SYNOPSIS
     Keeps computer awake
 .DESCRIPTION
-    Author: Trond Stien
+    Author: TSLETSGO
     Version: 1.0
-    Creation Date: 01.01.2020
 
     Script to keep computer awake and prevent going into "away" mode by sending scroll lock every 120 seconds. 
     Useful for keeping test-machines awake.

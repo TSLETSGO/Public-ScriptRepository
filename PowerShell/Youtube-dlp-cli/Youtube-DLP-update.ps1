@@ -2,9 +2,8 @@
 .SYNOPSIS
     Updates youtube-dlp
 .DESCRIPTION
-    Author: Trond Stien
+    Author: TSLETSGO
     Version: 1.0
-    Creation Date: 15.10.2021
 
     Updates youtube-dlp using a modified version of the MPV update script
 
