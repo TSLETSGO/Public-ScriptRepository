@@ -16,7 +16,7 @@
     ./keepalive.ps1 -transcript
 
 .NOTES
-    Will also prevent teams from setting user to "away" mode.
+	Useful for keeping test-machines awake.
 #>
 
 [cmdletbinding()]
