@@ -67,6 +67,7 @@ function find-ytdlp {
     $youtubedlp = "$($ytdlploc)\yt-dlp.exe"
     $is_exist = Test-Path $youtubedlp
     return $is_exist
+    write-host "does youtube exist on? `'$($ytdlploc)\yt-dlp.exe`'"
 }
 
 function Find-7z {
@@ -94,6 +95,7 @@ function Get-Latest-Youtubedlp {
     $resp = Invoke-WebRequest $link -MaximumRedirection 0 -ErrorAction Ignore -UseBasicParsing
     $redirect_link = $resp.Headers.Location
     $version = $redirect_link.split("/")[7]
+    write-host "Newest version is `'$version`'"
     return $version
 }
 
@@ -103,11 +105,13 @@ function Test-Admin{
 }
 
 function Update-Youtubedlp {
+    write-host "Checking if update is necessary"
     $need_download = $false
     $latest_release = Get-Latest-Youtubedlp
+    $local_version_release = Get-ItemProperty "$($ytdlploc)\yt-dlp.exe"
 
     if (find-ytdlp) {
-        if ((.$ytdlploc\yt-dlp.exe --version) -match ($latest_release)) {
+        if (($local_version_release.VersionInfo.FileVersion) -match ($latest_release)) {
             Write-Host "You are already using latest youtube-dlp -- $latest_release" -ForegroundColor Green
             $need_download = $false
         }
