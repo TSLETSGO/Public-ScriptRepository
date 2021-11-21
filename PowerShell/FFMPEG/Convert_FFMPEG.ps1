@@ -89,7 +89,14 @@ if ($Videofolder){
        write-host "removing audio for files in `'$VideoFolder`'" 
     }
     else {
-        $format = Read-Host "Input desired output format, example: webm, mp4, mov, etc."
+        write-host "Possible formats:" -ForegroundColor Yellow
+        write-host $VideoFileformatArray -ForegroundColor Yellow
+        $format = Read-Host "Input desired output format"
+        #removes the '.' if user added it 
+        if ($format -contains ".") {
+            $format = $format -replace '[.]',""
+        }
+
     }
 
     #runs a foreach for every file located in the inputted video folder and converts them to desired format, or removes audio
