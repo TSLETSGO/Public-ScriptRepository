@@ -66,11 +66,11 @@ function Convert_Video {
     try {
         if ($RemoveAudio){
             write-host "- Note: `'RemoveAudio`' switch is set. Removing audio from video." -ForegroundColor Yellow
-            #& $FFMPEG -i "$VideoFile" -c:v libvpx-vp9 -crf 30 -b:v 0 -b:a 128k -c:a -an "$OutputName.webm"
             & $FFMPEG -i $VideoFile -vcodec copy -an $OutputName
         }
         else{
-            & $FFMPEG -i "$VideoFile" -c:v libvpx-vp9 -crf 30 -b:v 0 -b:a 128k -c:a libopus "$OutputName.$format"        
+           #& $FFMPEG -i "$VideoFile" -c:v libvpx-vp9 -crf 30 -b:v 0 -b:a 128k -c:a libopus "$OutputName.$format"
+           & $FFMPEG -i "$VideoFile" "$OutputName.$format"     
         }
         write-host "- Output: `'$OutputName`'" -foregroundcolor Green
     }
