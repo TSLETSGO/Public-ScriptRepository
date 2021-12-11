@@ -1,20 +1,20 @@
 ﻿<#
 .SYNOPSIS
-    Configure Oculus and Virtual Desktop VR services
+    Enable/disable oculus services
 .DESCRIPTION
     Author: TSLETSGO
     Version: 1.0
 
-    Simple script for stopping/disabling or enabling/starting Oculus and Virtual Desktop VR Services 
+    Simple script for stopping/disabling or enabling/starting Oculus services
 
 .EXAMPLE
     ./Configure-OculusVRServices.ps1 -StartupType Enabled
     ./Configure-OculusVRServices.ps1 -StartupType Disabled
 
 .NOTES
-    Used to prevent Oculus and Virtual Desktop VR services being enabled without any reason to be.
-        - Suggest adding virtual desktop streamer to playnite, adding the scripts to run enabling on launch, disabling on shut-down
-        - Then creating a shortcut from playnite (to replace original virtual desktop shortcut) by right-clicking virtual desktop within playnite -> Create desktop shortcut. 
+    Used to prevent Oculus services being enabled without any reason to be.
+        - Suggest adding the oculus client to playnite, then adding the scripts in the scripts tab to enable the services on launch, disabling on shut-down
+        - Then creating a shortcut from playnite (to replace original oculus shortcut) by right-clicking oculus within playnite -> Create desktop shortcut. 
         
         Put following in playnite scripts (change scriptlocation and startuptype as desired):
             $ScriptLocation = "<LOCATION>\Configure-OculusVRServices.ps1"
@@ -72,30 +72,21 @@ if ($checkforadmin -eq $false) {
         Exit
 }
 else{
-    $VirtualDesktopService = Get-Service -DisplayName "Virtual Desktop Service"
     $OculusServices = Get-Service | Where-Object {$_.DisplayName -like "Oculus VR*"}
+    $OVRService = Get-Service OVRService
 
-    if ($StartupType -match "Enable|Enabled"){
+    if ($StartupType -match "Enabled|Enable"){
+        Set-Service -StartupType manual -name $OVRService.name
         
-        # Don't have to allow oculus services to be on
-        # Allow services to be manually started
-        #Set-Service -StartupType manual -Name $VirtualDesktopService.Name
-        #foreach ($OculusService in $OculusServices){
-        #    Set-Service -StartupType manual -name $OculusService.name
-        #}
-        
-        # Start virtual desktop service
-        Start-Service -Name $VirtualDesktopService.Name
+        # Start Oculus VR service
+        Start-Service -Name $OVRService.Name
     }
-    else{
+    else {
         foreach ($OculusService in $OculusServices){
             Set-Service -StartupType Disabled -name $OculusService.name
             Stop-Service -name $OculusService.name
         }
-        Set-Service -StartupType Disabled -Name $VirtualDesktopService.Name
-        Stop-Service -Name $VirtualDesktopService.Name
     }
-
 }
 #endregion /SCRIPT  ######################################################### - SCRIPT
 
