@@ -24,7 +24,7 @@ if (url.href.startsWith("https://consent.")) {
   var redirectURL = url.searchParams.get("continue");
   var hosturl = redirectURL.split("/")[2];
 }
-else{
+else {
   var redirectURL = url.href;
   var hosturl = url.host;
 }

@@ -3,8 +3,8 @@
 CONTAINERFILES_LOCATION="/dockers/scripts/dockerfiles"
 
 # don't run multiple versions of the script
-if [[ "`pidof -x $(basename $0) -o %PPID`" ]]; then
-        echo "This script is already running with PID `pidof -x $(basename $0) -o %PPID`"
+if [[ "$(pidof -x $(basename $0) -o %PPID)" ]]; then
+        echo "This script is already running with PID $(pidof -x $(basename $0) -o %PPID)"
         exit
 fi
 
@@ -35,8 +35,7 @@ for container in ${CONTAINER_LIST}; do
         if [[ "${RUNNING_IMAGE}" != "${LATEST_IMAGE}" ]]; then
                 echo "-Updating $CONTAINER_NAME with $LATEST_IMAGE"
 
-                if [[ $(echo "$DEPENDENT_CONTAINERS" | wc -l) -gt 1 ]];
-                then
+                if [[ $(echo "$DEPENDENT_CONTAINERS" | wc -l) -gt 1 ]]; then
                         echo "-Dependent containers found, stopping them all"
                         docker stop $DEPENDENT_CONTAINERS 1>/dev/null
                         echo "----Dependent containers stopped: Success"
@@ -47,13 +46,11 @@ for container in ${CONTAINER_LIST}; do
                 docker rm $container 1>/dev/null
                 "$CONTAINERFILES_LOCATION/$CONTAINER_NAME.sh" 1>/dev/null
 
-                if [[ $(echo "$DEPENDENT_CONTAINERS" | wc -l) -gt 1 ]];
-                then
+                if [[ $(echo "$DEPENDENT_CONTAINERS" | wc -l) -gt 1 ]]; then
                         echo "-Recreating dependent containers"
                         sleep 3
 
-                        for dependent_container in ${DEPENDENT_CONTAINERS};
-                        do
+                        for dependent_container in ${DEPENDENT_CONTAINERS}; do
                                 echo "----Recreating $dependent_container"
                                 docker rm $dependent_container 1>/dev/null
                                 "$CONTAINERFILES_LOCATION/$dependent_container.sh" 1>/dev/null
@@ -65,8 +62,7 @@ for container in ${CONTAINER_LIST}; do
         echo ""
 done
 
-
 echo "all containers checked"
 echo "removing old images"
-docker image prune -a -f > /dev/null
+docker image prune -a -f >/dev/null
 echo "--- script done"
