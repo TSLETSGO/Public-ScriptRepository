@@ -103,6 +103,7 @@ function Get-Latest-mpvnet {
 function Expand-zipfile ($version) {
     $7zipexecutable = $7ZipLocation + "\7z.exe"
     & $7zipexecutable e "$($Downloadfolder)\mpv.net-$($version -replace 'v','').zip" -o"$mpvnetloc" -y
+    remove-item "$($Downloadfolder)\mpv.net-$($version -replace 'v','').zip"
 }
 
 function Test-Admin{
