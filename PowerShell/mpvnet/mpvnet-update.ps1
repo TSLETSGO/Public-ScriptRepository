@@ -100,7 +100,7 @@ function Get-Latest-mpvnet {
     return $version
 }
 
-function Unpack-zip {
+function Expand-zipfile {
     $7zipexecutable = $7ZipLocation + "\7z.exe"
     & $7zipexecutable e "$($Downloadfolder)\mpv.net-$versionnumber.zip" -o"$mpvnetloc" -y
 }
@@ -141,7 +141,7 @@ function Update-mpvnet {
 
     if ($need_download) {
         Get-mpvnet $latest_release
-        Unpack-zip
+        Expand-zipfile
     }
 }
 
