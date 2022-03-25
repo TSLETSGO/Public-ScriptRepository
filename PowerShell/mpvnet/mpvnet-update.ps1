@@ -100,9 +100,9 @@ function Get-Latest-mpvnet {
     return $version
 }
 
-function Expand-zipfile {
+function Expand-zipfile ($version) {
     $7zipexecutable = $7ZipLocation + "\7z.exe"
-    & $7zipexecutable e "$($Downloadfolder)\mpv.net-$versionnumber.zip" -o"$mpvnetloc" -y
+    & $7zipexecutable e "$($Downloadfolder)\mpv.net-$($version -replace 'v','').zip" -o"$mpvnetloc" -y
 }
 
 function Test-Admin{
@@ -141,7 +141,7 @@ function Update-mpvnet {
 
     if ($need_download) {
         Get-mpvnet $latest_release
-        Expand-zipfile
+        Expand-zipfile $latest_release
     }
 }
 
