@@ -1,11 +1,11 @@
 ﻿<#
 .SYNOPSIS
-    Enable/disable oculus services
+    Enable/disable oculus & VirtualDesktop services
 .DESCRIPTION
     Author: TSLETSGO
     Version: 1.0
 
-    Simple script for stopping/disabling or enabling/starting Oculus services
+    Simple script for stopping/disabling or enabling/starting Oculus & virtual desktop services
 
 .EXAMPLE
     ./Configure-OculusVRServices.ps1 -StartupType Enabled
@@ -72,20 +72,25 @@ if ($checkforadmin -eq $false) {
         Exit
 }
 else{
+    $VirtualDesktopService = Get-Service | Where-Object {$_.DisplayName -like "Virtual Desktop*"}
     $OculusServices = Get-Service | Where-Object {$_.DisplayName -like "Oculus VR*"}
     $OVRService = Get-Service OVRService
 
     if ($StartupType -match "Enabled|Enable"){
         Set-Service -StartupType manual -name $OVRService.name
-        
+        Set-Service -StartupType manual -name $VirtualDesktopService.name
         # Start Oculus VR service
         Start-Service -Name $OVRService.Name
+        # Start Virtual Desktop VR Service
+        Start-Service -Name $VirtualDesktopService.Name
     }
     else {
         foreach ($OculusService in $OculusServices){
             Set-Service -StartupType Disabled -name $OculusService.name
             Stop-Service -name $OculusService.name
         }
+        Set-Service -StartupType Disabled -name $VirtualDesktopService.name
+        Stop-Service -name $VirtualDesktopService.name
     }
 }
 #endregion /SCRIPT  ######################################################### - SCRIPT
