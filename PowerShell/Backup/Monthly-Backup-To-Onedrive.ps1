@@ -10,7 +10,7 @@
     Delete the 6 month old backup file to the TO location
 
 .EXAMPLE
-    ./Monthly-backup-to-Onedrive.ps1 -FILEPATH \\backup\backupfolder\monthly\backup.7z" -BACKUPTOPATH "C:\backup"  -DELETEMONTHSBACK "6"
+    ./Monthly-Backup-To-Onedrive.ps1 -FILEPATH \\backup\backupfolder\monthly\backup.7z" -BACKUPTOPATH "C:\backup"  -DELETEMONTHSBACK "6"
 
 .NOTES
     The script will append the current year+month if the file doesn't have it already:
@@ -36,7 +36,7 @@ param(
 #region FUNCTIONS ########################################################### - FUNCTIONS
 if ($transcript -eq $true){
     #Defines name of script for logging purposes
-    $ScriptName="Monthly-LinuxBackup-To-Onedrive"
+    $ScriptName="Monthly-Backup-To-Onedrive"
     $StartTime=get-date -format o
     #Starts transcript of script
     Start-Transcript "$($env:TEMP)\$ScriptName.ps1_log.txt" -Force -Append
